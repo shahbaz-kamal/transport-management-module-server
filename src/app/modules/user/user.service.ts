@@ -12,4 +12,13 @@ const createUser = async (newUser: Prisma.UserCreateInput) => {
   return result;
 };
 
-export const UserService = { createUser };
+const getMe=async(myId:string)=>{
+const user=await prisma.user.findUnique({
+  where:{
+    id:myId
+  }
+})
+return user
+}
+
+export const UserService = { createUser,getMe };
