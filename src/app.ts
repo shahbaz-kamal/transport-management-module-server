@@ -4,8 +4,10 @@ import cookieParser from "cookie-parser";
 import { logger } from "./app/middlewares/logger";
 import { envVars } from "./config/env";
 import router from "./route";
+import globalErrorHandler from "./app/middlewares/globalErrorHandler";
+import notFound from "./app/middlewares/notFoundError";
 
-export const app = express();
+const app = express();
 
 // //middlewares
 
@@ -33,3 +35,9 @@ app.get("/", (req: Request, res: Response) => {
     timeStamp: new Date().toISOString(),
   });
 });
+
+app.use(globalErrorHandler);
+
+app.use(notFound);
+
+export default app;

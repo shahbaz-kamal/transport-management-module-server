@@ -12,4 +12,4 @@ const createUser = async (newUser: Prisma.UserCreateInput) => {
   return result;
 };
 
-export const UserServices = { createUser };
+export const UserService = { createUser };
