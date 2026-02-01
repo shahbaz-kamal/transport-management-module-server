@@ -2,7 +2,7 @@ import { Role } from "@prisma/client";
 import z from "zod";
 
 const createUserZodSchema = z.object({
-  email: z.email({ error: "Email Must follow standard email foirmat" }),
+  email: z.string({ error: "Email is required" }),
   password: z.string({ error: "password is required and must be string" }),
   name: z
     .string({ error: "Name must be string" })

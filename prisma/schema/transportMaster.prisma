@@ -16,7 +16,7 @@ model StudentTransportAssignment {
 
     route       Route       @relation(fields: [routeId], references: [id], onDelete: Cascade)
     vehicle     Vehicle     @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
-    pickuppoint PickupPoint @relation(fields: [pickupPointId], references: [id], onDelete: Cascade)
+    pickupPoint PickupPoint @relation(fields: [pickupPointId], references: [id], onDelete: Cascade)
 
     @@index([userId])
     @@index([assignedBy])
@@ -24,15 +24,17 @@ model StudentTransportAssignment {
 }
 
 model Route {
-    id                          String                       @id @default(uuid())
-    name                        String
-    startPoint                  String
-    endPoint                    String
-    createdAt                   DateTime                     @default(now())
-    updatedAt                   DateTime                     @updatedAt
-    vehicles                    Vehicle[]
-    pickupPoints                PickupPoint[]
+    id         String    @id @default(uuid())
+    name       String
+    startPoint String
+    endPoint   String
+    createdAt  DateTime  @default(now())
+    updatedAt  DateTime  @updatedAt
+    monthlyFee Int
+    vehicles   Vehicle[]
+
     studentTransportAssignments StudentTransportAssignment[]
+    routePickupPoints           RoutePickupPoints[]
 
     @@map("route")
 }
@@ -40,7 +42,7 @@ model Route {
 model Vehicle {
     id         String   @id @default(uuid())
     routeId    String
-    vehicleNo  Int      @default(autoincrement())
+    vehicleNo  String   @unique
     driverName String
     contactNo  String
     createdAt  DateTime @default(now())
@@ -53,14 +55,31 @@ model Vehicle {
 }
 
 model PickupPoint {
-    id         String   @id @default(uuid())
-    routeId    String
-    name       String
-    monthlyFee String
-    address    String?
-    createdAt  DateTime @default(now())
-    updatedAt  DateTime @updatedAt
+    id String @id @default(uuid())
 
-    route                       Route                        @relation(fields: [routeId], references: [id])
+    name      String
+    address   String?
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+
     studentTransportAssignments StudentTransportAssignment[]
+    routePickupPoints           RoutePickupPoints[]
+
+    @@map("pickupPoint")
+}
+
+model RoutePickupPoints {
+    id            String   @id @default(uuid())
+    routeId       String
+    pickupPointId String
+    stopOrder     Int
+    createdAt     DateTime @default(now())
+    updatedAt     DateTime @updatedAt
+
+    route       Route       @relation(fields: [routeId], references: [id], onDelete: Cascade)
+    pickupPoint PickupPoint @relation(fields: [pickupPointId], references: [id], onDelete: Cascade)
+
+    @@unique([routeId, pickupPointId])
+    @@unique([routeId, stopOrder])
+    @@map("routePickupPoint")
 }
