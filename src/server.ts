@@ -1,6 +1,7 @@
 import { Server } from "node:http";
 import { app } from "./app";
 import { envVars } from "./config/env";
+import { seedSuperAdmin } from "./app/utils/seedSuperAdmin";
 
 const startServer = async () => {
   let server: Server;
@@ -41,4 +42,5 @@ const startServer = async () => {
 
 (async () => {
   await startServer();
+  await seedSuperAdmin();
 })();

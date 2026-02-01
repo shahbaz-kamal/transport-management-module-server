@@ -7,10 +7,19 @@ interface EnvVars {
   PORT: string;
   NODE_ENV: string;
   BCRYPT_SALT_ROUND: string;
+  SUPER_ADMIN_EMAIL: string;
+  SUPER_ADMIN_PASSWORD: string;
 }
 
 const loadEnvironmentVariables = (): EnvVars => {
-  const requiredVariables: string[] = ["DATABASE_URL", "PORT", "NODE_ENV", "BCRYPT_SALT_ROUND"];
+  const requiredVariables: string[] = [
+    "DATABASE_URL",
+    "PORT",
+    "NODE_ENV",
+    "BCRYPT_SALT_ROUND",
+    "SUPER_ADMIN_EMAIL",
+    "SUPER_ADMIN_PASSWORD",
+  ];
 
   requiredVariables.forEach((key) => {
     if (!process.env[key]) throw new Error(`Missing Environment variable: ${key}`);
@@ -21,6 +30,8 @@ const loadEnvironmentVariables = (): EnvVars => {
     NODE_ENV: process.env.NODE_ENV as string,
     PORT: process.env.PORT as string,
     BCRYPT_SALT_ROUND: process.env.BCRYPT_SALT_ROUND as string,
+    SUPER_ADMIN_EMAIL: process.env.SUPER_ADMIN_EMAIL as string,
+    SUPER_ADMIN_PASSWORD: process.env.SUPER_ADMIN_PASSWORD as string,
   };
 };
 
