@@ -16,5 +16,4 @@ const createRoute = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-
-export const RouteManagementController={createRoute}
+export const RouteManagementController = { createRoute };
