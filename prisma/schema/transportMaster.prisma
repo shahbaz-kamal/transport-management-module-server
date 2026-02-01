@@ -1,0 +1,66 @@
+model StudentTransportAssignment {
+    id            String   @id @default(uuid())
+    userId        String
+    routeId       String
+    vehicleId     String
+    pickupPointId String
+    assignedBy    String
+    assignedAt    DateTime @default(now())
+    updatedAt     DateTime @updatedAt
+
+    // student user
+    user User @relation("transport_student", fields: [userId], references: [id], onDelete: Cascade)
+
+    // admin user who assigned
+    assignedByUser User @relation("transport_admin", fields: [assignedBy], references: [id], onDelete: Cascade)
+
+    route       Route       @relation(fields: [routeId], references: [id], onDelete: Cascade)
+    vehicle     Vehicle     @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+    pickuppoint PickupPoint @relation(fields: [pickupPointId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
+    @@index([assignedBy])
+    @@map("studentTransportAssignments")
+}
+
+model Route {
+    id                          String                       @id @default(uuid())
+    name                        String
+    startPoint                  String
+    endPoint                    String
+    createdAt                   DateTime                     @default(now())
+    updatedAt                   DateTime                     @updatedAt
+    vehicles                    Vehicle[]
+    pickupPoints                PickupPoint[]
+    studentTransportAssignments StudentTransportAssignment[]
+
+    @@map("route")
+}
+
+model Vehicle {
+    id         String   @id @default(uuid())
+    routeId    String
+    vehicleNo  Int      @default(autoincrement())
+    driverName String
+    contactNo  String
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
+
+    route                       Route                        @relation(fields: [routeId], references: [id])
+    studentTransportAssignments StudentTransportAssignment[]
+
+    @@map("vehicle")
+}
+
+model PickupPoint {
+    id         String   @id @default(uuid())
+    routeId    String
+    name       String
+    monthlyFee String
+    address    String?
+    createdAt  DateTime @default(now())
+    updatedAt  DateTime @updatedAt
+
+    route                       Route                        @relation(fields: [routeId], references: [id])
+    studentTransportAssignments StudentTransportAssignment[]
+}

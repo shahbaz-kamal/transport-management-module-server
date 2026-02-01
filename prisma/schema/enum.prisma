@@ -1,0 +1,10 @@
+enum Role {
+    STUDENT
+    SUPER_ADMIN
+    ADMIN
+}
+
+enum FeeStatus {
+    PAID
+    UNPAID
+}

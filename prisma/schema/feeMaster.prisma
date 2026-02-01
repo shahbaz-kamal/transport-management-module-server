@@ -1,0 +1,18 @@
+model StudentFeeAssignment {
+    id         String    @id @default(uuid())
+    userId     String
+    amount     Int
+    month      String
+    year       String
+    status     FeeStatus
+    assignedBy String
+    createdAt  DateTime  @default(now())
+    updatedAt  DateTime  @updatedAt
+
+    user           User @relation("student", fields: [userId], references: [id], onDelete: Cascade)
+    assignedByUser User @relation("admin", fields: [assignedBy], references: [id], onDelete: Cascade)
+
+    @@index([userId])
+    @@index([assignedBy])
+    @@map("studentFeeMaster")
+}
