@@ -3,6 +3,7 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import { logger } from "./app/middlewares/logger";
 import { envVars } from "./config/env";
+import router from "./route";
 
 export const app = express();
 
@@ -22,9 +23,7 @@ app.use(logger);
 
 //   //routing
 
-app.use("/api/v1", () => {
-  console.log("Working");
-});
+app.use("/api/v1", router);
 
 app.get("/", (req: Request, res: Response) => {
   res.send({
