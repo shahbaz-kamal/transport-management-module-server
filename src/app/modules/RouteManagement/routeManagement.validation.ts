@@ -21,4 +21,9 @@ const createRouteZodSchema = z
     path: ["pickupPoints"],
   });
 
-export const RouteValidation = { createRouteZodSchema };
+const updateRouteFeeZodSchema=z.object({
+  routeId:z.string("RouteId Must be string"),
+  monthlyFee:z.number("monthly Fee must be number")
+})
+
+export const RouteValidation = { createRouteZodSchema,updateRouteFeeZodSchema };

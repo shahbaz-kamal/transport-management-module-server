@@ -52,4 +52,74 @@ const createRoute = async (payload: ICreateRoute) => {
   return result;
 };
 
-export const RouteManagementService = { createRoute };
+const updateRouteFee = async (payload: { routeId: string; monthlyFee: number }) => {
+  const result = await prisma.route.update({
+    where: { id: payload.routeId },
+    data: {
+      monthlyFee: payload.monthlyFee,
+    },
+  });
+
+  return result;
+};
+
+const getAllRoutes = async () => {
+  const result = await prisma.route.findMany();
+  return result;
+};
+
+const getAllRoutesWithPickupPoints = async () => {
+  const result = await prisma.route.findMany({
+    orderBy: { createdAt: "desc" },
+    include: {
+      vehicles: {
+        select: {
+          id: true,
+          vehicleNo: true,
+          driverName: true,
+          contactNo: true,
+          createdAt: true,
+          updatedAt: true,
+        },
+      },
+      routePickupPoints: {
+        orderBy: { stopOrder: "asc" },
+        include: {
+          pickupPoint: true,
+        },
+      },
+    },
+  });
+
+  const formattedResult = result.map((route) => ({
+    id: route.id,
+    name: route.name,
+    startPoint: route.startPoint,
+    endPoint: route.endPoint,
+    monthlyFee: route.monthlyFee,
+    createdAt: route.createdAt,
+    updatedAt: route.updatedAt,
+
+    pickupPoints: route.routePickupPoints.map((rp) => ({
+      id: rp.pickupPoint.id,
+      name: rp.pickupPoint.name,
+      address: rp.pickupPoint.address,
+      stopOrder: rp.stopOrder,
+      routePickupPointId: rp.id,
+    })),
+
+    vehicles: route.vehicles.map((v) => ({
+      id: v.id,
+      vehicleNo: v.vehicleNo,
+      driverName: v.driverName,
+      contactNo: v.contactNo,
+      createdAt: v.createdAt,
+      updatedAt: v.updatedAt,
+    })),
+  }));
+
+  return formattedResult;
+};
+
+
+export const RouteManagementService = { createRoute, getAllRoutes,updateRouteFee,getAllRoutesWithPickupPoints };
