@@ -9,4 +9,6 @@ const router = Router();
 // get all routes
 router.get("/", checkAuth([Role.ADMIN, Role.SUPER_ADMIN]), PickupPointController.getAllPickupPoint);
 
+
+
 export const PickupPointRoutes = router;

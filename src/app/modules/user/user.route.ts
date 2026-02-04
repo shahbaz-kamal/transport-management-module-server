@@ -9,8 +9,10 @@ const router = Router();
 
 router.post("/create-user", validateRequest(UserValidation.createUserZodSchema), UserController.createUser);
 
-router.get("/me", checkAuth([Role.ADMIN, Role.SUPER_ADMIN]), UserController.getMe);
+router.get("/me", checkAuth([Role.ADMIN, Role.SUPER_ADMIN,Role.STUDENT]), UserController.getMe);
 
 router.get("/student",checkAuth([Role.ADMIN, Role.SUPER_ADMIN]),UserController.getAllStudent)
+router.get("/student/myData",checkAuth([Role.STUDENT]),UserController.getStudentDashboardData)
+
 
 export const UserRoutes = router;
