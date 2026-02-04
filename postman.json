@@ -1,0 +1,267 @@
+{
+  "info": {
+    "_postman_id": "0f8cf505-53b8-405e-a694-a35a6c8a3af9",
+    "name": "transport management",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "45547725"
+  },
+  "item": [
+    {
+      "name": "user",
+      "item": [
+        {
+          "name": "create User",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\":\"a@c.com\",\r\n    \"password\":\"123456\",\r\n    \"name\":\"Tamim\",\r\n    \"role\":\"ADMIN\"\r\n    \r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/user/create-user",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "user",
+                "create-user"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Me",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "getAll Students",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "get my data",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\":\"a@b.com\",\r\n    \"password\":\"123456\",\r\n    \"name\":\"Tamim\",\r\n    \"role\":\"ADMIN\"\r\n    \r\n}"
+            },
+            "url": {
+              "raw": "{{URL}}/auth/login",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "logout",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Route Management",
+      "item": [
+        {
+          "name": "Create Route",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\":\"JFP - School\",\r\n    \"startPoint\":\"Jamuna Future Park\",\r\n    \"endPoint\":\"Mirpur 12 (School)\",\r\n    \"monthlyFee\":1500,\r\n    \"pickupPoints\": [\r\n        {\r\n            \"name\":\"Jamuna Future Park\",\r\n            \"Address\":\"Basundhara Gate, Vatara\",\r\n            \"stopOrder\":1\r\n        },\r\n        {\r\n            \"name\":\"Kuril Bishwa Road\",\r\n            \"Address\":\"Kuril, Vatara\",\r\n            \"stopOrder\":2\r\n        },\r\n        {\r\n            \"name\":\"Cantonment\",\r\n            \"Address\":\"Cantonment Railway STation\",\r\n            \"stopOrder\":3\r\n        },\r\n        {\r\n            \"name\":\"ECB Chattar\",\r\n            \"Address\":\"ECB\",\r\n            \"stopOrder\":4\r\n        },\r\n        {\r\n            \"name\":\"Kalshi\",\r\n            \"Address\":\"Kalshi, Pallabi\",\r\n            \"stopOrder\":5\r\n        },\r\n        {\r\n            \"name\":\"Mirpur 12\",\r\n            \"Address\":\"Mirpur 12  (School)\",\r\n            \"stopOrder\":6\r\n        }\r\n    ]\r\n  \r\n\r\n    \r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/route/create-user",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "route",
+                "create-user"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Routes",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Routes With pickup",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "update route",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        },
+        {
+          "name": "assign Route",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Vehicle",
+      "item": [
+        {
+          "name": "create-vehicle",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"routeId\":\"e4596c17-e9e4-4c65-bc62-1699db53aa00\",\r\n    \"vehicleNo\":\"VH-01\",\r\n    \"driverName\":\"Salam\",\r\n    \"contactNo\":\"01799839985\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/vehicle/create-vehicle",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "vehicle",
+                "create-vehicle"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "get all vehicle",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"routeId\":\"e4596c17-e9e4-4c65-bc62-1699db53aa00\",\r\n    \"vehicleNo\":\"VH-01\",\r\n    \"driverName\":\"Salam\",\r\n    \"contactNo\":\"01799839985\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{URL}}/vehicle/create-vehicle",
+              "host": [
+                "{{URL}}"
+              ],
+              "path": [
+                "vehicle",
+                "create-vehicle"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Pickup Point",
+      "item": [
+        {
+          "name": "Get All Pickup poiunt",
+          "request": {
+            "method": "GET",
+            "header": []
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "packages": {},
+        "requests": {},
+        "exec": [
+          ""
+        ]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "URL",
+      "value": ""
+    }
+  ]
+}
