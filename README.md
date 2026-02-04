@@ -81,7 +81,7 @@ JWT_REFRESH_TOKEN_EXPIRES_IN="90d" #changing is optional
 ```bash
 npm run dev
 ```
-
+Then the backend should run on localhost 5000. 
 6. Use Postman named postman.json in the root folder to send request as per above instructions
 
 ### Thank you:
