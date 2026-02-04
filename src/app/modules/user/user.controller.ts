@@ -29,4 +29,15 @@ const getMe = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-export const UserController = { createUser, getMe };
+
+const getAllStudent = catchAsync(async (req: Request, res: Response) => {
+  const result = await UserService.getAllStudents();
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    message: "All Student Data Retrieved Successfully",
+    success: true,
+    data: result,
+  });
+});
+
+export const UserController = { createUser, getMe,getAllStudent };

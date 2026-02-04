@@ -3,6 +3,7 @@ import catchAsync from "../../shared/catchAsync";
 import { RouteManagementService } from "./routeManagement.service";
 import sendResponse from "../../shared/sendResponse";
 import httpStatus from "http-status-codes";
+import { JwtPayload } from "jsonwebtoken";
 
 const getAllRoutes = catchAsync(async (req: Request, res: Response) => {
   const result = await RouteManagementService.getAllRoutes();
@@ -47,5 +48,22 @@ const createRoute = catchAsync(async (req: Request, res: Response) => {
     data: result,
   });
 });
+const assignRoute = catchAsync(async (req: Request, res: Response) => {
+  const { feeAssign, transportAssign } = req.body;
+  const decodedToken = req.user as JwtPayload;
+  const adminId = decodedToken.userId;
+  console.log(adminId);
+  const result = await RouteManagementService.assignRoute(
+    { ...feeAssign, assignedBy: adminId },
+    { ...transportAssign, assignedBy: adminId }
+  );
 
-export const RouteManagementController = { createRoute, getAllRoutes,updateRouteFee,getAllRoutesWithPickupPoints };
+  sendResponse(res, {
+    success: true,
+    statusCode: httpStatus.CREATED,
+    message: "Route assigned Successfully",
+    data: result,
+  });
+});
+
+export const RouteManagementController = { createRoute, getAllRoutes, updateRouteFee, getAllRoutesWithPickupPoints, assignRoute };

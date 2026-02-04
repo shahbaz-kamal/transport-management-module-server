@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { Prisma, Role } from "@prisma/client";
 import bcrypt from "bcryptjs";
 import { envVars } from "../../../config/env";
 import { prisma } from "../../shared/prisma";
@@ -21,4 +21,54 @@ const user=await prisma.user.findUnique({
 return user
 }
 
-export const UserService = { createUser,getMe };
+
+const getAllStudents = async () => {
+  const result = await prisma.user.findMany({
+    where: {
+      role: Role.STUDENT,
+    },
+    select: {
+      id: true,
+      email: true,
+      name: true,
+      role: true,
+      address: true,
+      isRouteAssigned: true,
+      createdAt: true,
+      updatedAt: true,
+
+      transportAsStudent: {
+        take: 1,
+        orderBy: {
+          assignedAt: "desc",
+        },
+        select: {
+          route: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          vehicle: {
+            select: {
+              id: true,
+              vehicleNo: true,
+            },
+          },
+          pickupPoint: {
+            select: {
+              id: true,
+              name: true,
+            },
+          },
+          assignedAt: true,
+        },
+      },
+    },
+  });
+
+  return result;
+};
+
+
+export const UserService = { createUser,getMe,getAllStudents };

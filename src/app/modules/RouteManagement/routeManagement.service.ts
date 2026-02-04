@@ -1,6 +1,8 @@
 import { Prisma } from "@prisma/client";
 import { prisma } from "../../shared/prisma";
-import { ICreateRoute } from "./routeManagement.interface";
+import { ICreateRoute, IStudentFeeAssignment, IStudentTransportAssignment } from "./routeManagement.interface";
+import AppError from "../../errorHelpers/AppError";
+import httpStatus from "http-status-codes";
 
 const createRoute = async (payload: ICreateRoute) => {
   const { pickupPoints, ...routeData } = payload;
@@ -121,5 +123,46 @@ const getAllRoutesWithPickupPoints = async () => {
   return formattedResult;
 };
 
+const assignRoute = async (feeAssign: IStudentFeeAssignment, transportAssign: IStudentTransportAssignment) => {
+  if (!feeAssign.assignedBy) {
+    throw new AppError(httpStatus.BAD_REQUEST, "assignedBy is required");
+  }
 
-export const RouteManagementService = { createRoute, getAllRoutes,updateRouteFee,getAllRoutesWithPickupPoints };
+  const result = await prisma.$transaction(async (tx) => {
+    const isStudentExist = await tx.user.findUnique({
+      where: { id: feeAssign.userId },
+    });
+    console.log("Is:", isStudentExist);
+    if (isStudentExist?.isRouteAssigned) throw new AppError(httpStatus.BAD_REQUEST, "Route ALready assigned");
+    const feeData = await tx.studentFeeAssignment.create({
+      data: {
+        amount: feeAssign.amount,
+        month: feeAssign.month,
+        year: feeAssign.year,
+        status: feeAssign.status,
+        user: { connect: { id: feeAssign.userId } },
+        assignedByUser: { connect: { id: feeAssign.assignedBy } },
+      },
+    });
+
+    const transportData = await tx.studentTransportAssignment.create({
+      data: {
+        user: { connect: { id: transportAssign.userId } },
+        assignedByUser: { connect: { id: feeAssign.assignedBy } },
+        route: { connect: { id: transportAssign.routeId } },
+        vehicle: { connect: { id: transportAssign.vehicleId } },
+        pickupPoint: { connect: { id: transportAssign.pickupPointId } },
+      },
+    });
+
+    await tx.user.update({
+      where: { id: feeAssign.userId },
+      data: { isRouteAssigned: true },
+    });
+    return { feeData, transportData };
+  });
+
+  return result;
+};
+
+export const RouteManagementService = { createRoute, getAllRoutes, updateRouteFee, getAllRoutesWithPickupPoints, assignRoute };

@@ -11,4 +11,6 @@ router.post("/create-user", validateRequest(UserValidation.createUserZodSchema),
 
 router.get("/me", checkAuth([Role.ADMIN, Role.SUPER_ADMIN]), UserController.getMe);
 
+router.get("/student",checkAuth([Role.ADMIN, Role.SUPER_ADMIN]),UserController.getAllStudent)
+
 export const UserRoutes = router;

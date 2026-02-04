@@ -29,4 +29,6 @@ router.patch(
   RouteManagementController.updateRouteFee
 );
 
+router.post("/assign-route", checkAuth([Role.ADMIN, Role.SUPER_ADMIN]), RouteManagementController.assignRoute);
+
 export const RouteManagementRoutes = router;
